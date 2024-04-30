@@ -22,6 +22,7 @@ export default function Checkout() {
     isLoading: isSending,
     error,
     sendRequest,
+    clearData,
   } = useHttp({
     url: "http://localhost:3000/orders",
     config: requestConfig,
@@ -62,6 +63,12 @@ export default function Checkout() {
     // });
   }
 
+  function handleFinish(){
+    userProgressCtx.hideCheckout();
+    cartCtx.clearCart();
+    clearData();
+  }
+
   let action = (
     <>
       <Button type="button" textOnly onClick={handleClose}>
@@ -79,13 +86,13 @@ export default function Checkout() {
     return (
       <Modal
         open={userProgressCtx.progress === "checkout"}
-        onClose={handleClose}
+        onClose={handleFinish}
       >
         <h2>Success!</h2>
         <p>Your order was submitted successfully</p>
         <p>Order details will be mailed to shortly</p>
         <p className="modal-actions">
-          <Button type="button" textOnly onClick={handleClose}>
+          <Button type="button" textOnly onClick={handleFinish}>
             Okay
           </Button>
         </p>
